@@ -9,12 +9,12 @@ services:
     depends_on:
       - wordpress
     ports:
-      - 80:80
       - 443:443
     networks:
       - inception
     volumes:
       - ./requirements/nginx/conf/:/etc/nginx/http.d/
+      # - ./requirements/nginx/conf/:/etc/nginx/conf.d/
       - ./requirements/nginx/tools:/etc/nginx/ssl/
       - wp-volume:/var/www/
     restart: always
