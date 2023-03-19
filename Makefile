@@ -1,23 +1,22 @@
 name = inception
 
-all: build up
-
-up:
-	@sudo docker-compose -f srcs/docker-compose.yml --env-file srcs/.env up -d
-
-build:
+all:
 	@printf "Building configuration ${name}...\n"
 	@sudo bash srcs/requirements/wordpress/tools/make_dir.sh
-	@sudo docker-compose -f srcs/docker-compose.yml --env-file srcs/.env build
+	@sudo docker-compose -f srcs/docker-compose.yml --env-file srcs/.env up --build -d
 
-build-no-cache:
+no-cache:
 	@printf "Building configuration ${name}...\n"
 	@sudo bash srcs/requirements/wordpress/tools/make_dir.sh
 	@sudo docker-compose -f srcs/docker-compose.yml --env-file srcs/.env build --no-cache
+	@sudo docker-compose -f srcs/docker-compose.yml --env-file srcs/.env up -d
 
 down:
 	@printf "Stopping configuration ${name}...\n"
 	@sudo docker-compose -f srcs/docker-compose.yml --env-file srcs/.env down
+
+up:
+	@sudo docker-compose -f srcs/docker-compose.yml --env-file srcs/.env up -d
 
 re: down all
 
@@ -31,4 +30,4 @@ fclean: clean
 	@sudo rm -rf ~/data/wordpress/*
 	@sudo rm -rf ~/data/mariadb/*
 
-.PHONY: all down re clean fclean
+.PHONY: all down re clean fclean no-cache
